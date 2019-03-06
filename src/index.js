@@ -1,4 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
+
+import {ControllerDataset} from './controller-dataset';
 import * as ui from './ui';
 import {Webcam} from './webcam';
 
@@ -10,7 +12,7 @@ const NUM_CLASSES = 2;
 const webcam = new Webcam(document.getElementById('webcam'));
 
 // The dataset object where we will store activations.
-const controllerDataset = undefined;
+const controllerDataset = new ControllerDataset(NUM_CLASSES);
 
 let truncatedMobileNet = undefined;
 let model = undefined;
@@ -32,6 +34,7 @@ async function loadTruncatedMobileNet() {
 ui.setSampleHandler(label => {
     tf.tidy(() => {
         const img = webcam.capture();
+        controllerDataset.addSample(truncatedMobileNet.predict(img), label);
 
         // Draw the preview thumbnail.
         ui.drawThumb(img, label);
@@ -42,6 +45,67 @@ ui.setSampleHandler(label => {
  * Sets up and trains the classifier.
  */
 async function train() {
+    if (controllerDataset.xs == null) {
+        throw new Error('Add some samples before training!');
+    }
+
+    // Creates a 2-layer fully connected model. By creating a separate model,
+    // rather than adding layers to the mobilenet model, we "freeze" the weights
+    // of the mobilenet model, and only train weights from the new model.
+    model = tf.sequential({
+        layers: [
+            // Flattens the input to a vector so we can use it in a dense layer. While
+            // technically a layer, this only performs a reshape (and has no training
+            // parameters).
+            tf.layers.flatten({
+                inputShape: truncatedMobileNet.outputs[0].shape.slice(1)
+            }),
+            // Layer 1.
+            tf.layers.dense({
+                units: ui.getDenseUnits(),
+                activation: 'relu',
+                kernelInitializer: 'varianceScaling',
+                useBias: true
+            }),
+            // Layer 2. The number of units of the last layer should correspond
+            // to the number of classes we want to predict.
+            tf.layers.dense({
+                units: NUM_CLASSES,
+                kernelInitializer: 'varianceScaling',
+                useBias: false,
+                activation: 'softmax'
+            })
+        ]
+    });
+
+    // Creates the optimizers which drives training of the model.
+    const optimizer = tf.train.adam(ui.getLearningRate());
+    // We use categoricalCrossentropy which is the loss function we use for
+    // categorical classification which measures the error between our predicted
+    // probability distribution over classes (probability that an input is of each
+    // class), versus the label (100% probability in the true class)>
+    model.compile({optimizer: optimizer, loss: 'categoricalCrossentropy'});
+
+    // We parameterize batch size as a fraction of the entire dataset because the
+    // number of samples that are collected depends on how many samples the user
+    // collects. This allows us to have a flexible batch size.
+    const batchSize =
+        Math.floor(controllerDataset.xs.shape[0] * ui.getBatchSizeFraction());
+    if (!(batchSize > 0)) {
+        throw new Error(
+            `Batch size is 0 or NaN. Please choose a non-zero fraction.`);
+    }
+
+    // Train the model! Model.fit() will shuffle xs & ys so we don't have to.
+    model.fit(controllerDataset.xs, controllerDataset.ys, {
+        batchSize,
+        epochs: ui.getEpochs(),
+        callbacks: {
+            onBatchEnd: async (batch, logs) => {
+                ui.trainStatus('Loss: ' + logs.loss.toFixed(5));
+            }
+        }
+    });
 }
 
 let isPredicting = false;
@@ -77,7 +141,16 @@ init().then(() => {
     console.log('Adding listeners to doc');
 
     document.getElementById('train').addEventListener('click', async () => {
-        alert('Please add some samples before training!');
+        if (controllerDataset.xs == null) {
+            alert('Please add some samples before training!');
+        } else {
+            ui.trainStatus('Training...');
+            await tf.nextFrame();
+            await tf.nextFrame();
+            isPredicting = false;
+            train();
+            isTrained = true;
+        }
     });
 
     document.getElementById('play').addEventListener('click', () => {
