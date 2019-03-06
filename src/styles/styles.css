@@ -55,6 +55,7 @@ header b {
 #breakout {
     display: block;
     width: 100%;
+    border: 1px solid blue;
 }
 
 /** Controls. **/
