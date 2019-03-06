@@ -1,5 +1,17 @@
 import * as ui from './ui';
 
+// The number of classes we want to predict.
+const NUM_CLASSES = undefined;
+
+// A webcam class that generates Tensors from the images from the webcam.
+const webcam = undefined;
+
+// The dataset object where we will store activations.
+const controllerDataset = undefined;
+
+let truncatedMobileNet = undefined;
+let model = undefined;
+
 // Loads mobilenet and returns a model that returns the internal activation
 // we'll use as input to our classifier model.
 async function loadTruncatedMobileNet() {
