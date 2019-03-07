@@ -131,7 +131,7 @@
 
    Use this [hint](./hints.md#Implementing-setSampleHandler) if you need it. 
 
-6. Reload the application, add samples from the web cam and verify that the number of samples increases as expected.
+7. Reload the application, add samples from the web cam and verify that the number of samples increases as expected.
 
 ***
    
@@ -247,7 +247,9 @@
    }
    ````  
 
-6. Reload the application.
+6. Infer the correct value for ``const NUM_CLASSES`` at the head of the file ``index.js``.
+
+7. Reload the application.
    1. Press the ``TRAIN MODEL`` button without loading any samples. 
       Ensure that the alert dialog is displayed as expected.
    
