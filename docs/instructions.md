@@ -37,7 +37,9 @@
       import {Webcam} from './webcam';
       ````
       
-   2. Create a new instance of webcam as the value of ``const webcam``.
+   2. Create a new instance of Webcam as the value of ``const webcam``.
+      
+      Use this [hint](./hints.md#Definition-of-const-webcam) if necessary. 
    
    3. Call ``webcam.setup()`` in the ``async function init()``
       and make sure that the HTML-element with id ``no-webcam`` is displayed (``style = block``)
