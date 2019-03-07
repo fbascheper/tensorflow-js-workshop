@@ -39,11 +39,13 @@
       
    2. Create a new instance of Webcam as the value of ``const webcam``.
       
-      Use this [hint](./hints.md#Definition-of-const-webcam) if necessary. 
+      Use this [hint](./hints.md#Definition-of-const-webcam) if you need it. 
    
-   3. Call ``webcam.setup()`` in the ``async function init()``
+   3. Call ``await webcam.setup()`` in the ``async function init()``
       and make sure that the HTML-element with id ``no-webcam`` is displayed (``style = block``)
-      when an exception occurs in its ``setup()`` method.  
+      when an exception occurs in its ``setup()`` method.
+      
+      Note: You should use the ``try {} catch(e) {}`` construct to achieve this.  
 
 4. Call ``ui.init()`` at the end of the ``async function init()``. 
 
@@ -102,7 +104,7 @@
         });
    ````  
 
-5. Implement ``async function handler(label)``.
+5. Implement ``async function handler(label)`` in the file ``ui.js``.
    ````  
    const className = CONTROLS[label];
    const total = document.getElementById(className + '-total');
@@ -126,6 +128,8 @@
         // TODO: implement me (using ui.js)!
     });
    ````  
+
+   Use this [hint](./hints.md#Implementing-setSampleHandler) if you need it. 
 
 6. Reload the application, add samples from the web cam and verify that the number of samples increases as expected.
 
