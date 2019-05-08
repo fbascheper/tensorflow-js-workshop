@@ -1,7 +1,7 @@
 # Instructions
 
 ### Assignment 1. Use the web cam to display a preview in the box under the ``PLAY`` button.
-1. Change the style of the ``<div>`` with id = ``controller`` to ``"display:none"``.
+1. Change the style of the ``<div>`` with id = ``controller`` to ``"display: none"``.
    This will hide the controller at the bottom of the screen until the application 
    has been setup correctly. 
 
@@ -147,11 +147,10 @@
    Don't forget to implement both ``// TODO`` from the snippet above. 
    You can use this [hint](./hints.md#Implementing-setSampleHandler) if you need it. 
 
-   In conjunction with the ``handler()`` function from the previous step, this
+   Note: in conjunction with the ``handler()`` function from the previous step, this
    will ensure that a frame is read from the WebCam when a UI button is pressed
    and associated with the class label given by the button. 
-   
-   Note: left, right are labels 0, 1 respectively. 
+   Left, right are labels 0, 1 respectively. 
    
 
 7. Reload the application, add samples from the web cam and verify that the number of samples increases as expected.
