@@ -20,3 +20,8 @@ into the ``tf.fromPixels()`` method, like so:
 * For ``const img`` you must call the ``capture()`` method in your instance of the ``WebCam`` class.
 * To draw the thumbnail you must call the ``drawThumb()`` method from ``ui`` and pass the image and label as parameters.
 
+---
+
+#### Updating setSampleHandler
+The addSample() method needs two parameters, a ``Tensor`` and a ``label``.
+The Tensor is returned by the predict method, e.g. ``truncatedMobileNet.predict(img)`` 

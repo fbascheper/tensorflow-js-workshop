@@ -134,7 +134,7 @@
    document.body.removeAttribute('data-active');
    ````
    
-6. Implement ``ui.setSampleHandler()`` in the file ``index.js``.
+6. Implement the lambda passed to ``ui.setSampleHandler()`` in the file ``index.js``.
    ````  
     tf.tidy(() => {
         const img = undefined; // TODO: implement me (using webcam.js)!
@@ -185,10 +185,16 @@
    }
    ````  
 
-2. Create a new instance of ControllerDataset as the value of ``const controllerDataset``.
+2. Create a new instance of ControllerDataset as the value of ``const controllerDataset``
+   in the file ``index.js``. 
 
-3. Use the ``addSample()`` method of the ``controllerDataset`` to add captured images from the web cam
-   to the controller dataset, using the prediction ``truncatedMobileNet.predict(image)``.
+3. Update the lambda passed to ``ui.setSampleHandler()`` in the file ``index.js``.
+   
+   Before the preview thumbnail is drawn, the ``addSample()`` method of the ``controllerDataset`` 
+   should be called to add captured images from the WebCam to the controller dataset, 
+   using the prediction ``truncatedMobileNet.predict(image)``.
+   
+   You can use this [hint](./hints.md#Updating-setSampleHandler) if you need it. 
    
 4. Implement ``async function train()``  in the file ``index.js``.
    ````  
@@ -253,7 +259,10 @@
             }
         }
     });
-   ````  
+   ````
+   
+   This creates a new model from the mobile net, adds two extra layers
+   and implements the actual training from the images captured by your webcam.   
 
 5. Add the ``train()`` method to the ``onclick()`` event of the HTML-element with id=``"train"``.
    ````  
@@ -269,9 +278,7 @@
    }
    ````  
 
-6. Infer the correct value for ``const NUM_CLASSES`` at the head of the file ``index.js``.
-
-7. Reload the application.
+6. Reload the application.
    1. Press the ``TRAIN MODEL`` button without loading any samples. 
       Ensure that the alert dialog is displayed as expected.
    
