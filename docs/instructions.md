@@ -2,6 +2,7 @@
 
 ### Assignment 1. Use the web cam to display a preview in the box under the ``PLAY`` button.
 1. Change the style of the ``<div>`` with id = ``controller`` to ``"display: none"``.
+   
    This will hide the controller at the bottom of the screen until the application 
    has been setup correctly. 
 
@@ -266,7 +267,8 @@
    1. A dense layer with a ReLU activation function
    2. A dense layer with a Softmax activation function
      
-   And it implements the actual training from the images captured by your webcam.   
+   And it does the actual training using the images captured by your WebCam,
+   which have been stored in the ``controllerDataset``.   
 
 5. Add the ``train()`` method to the ``onclick()`` event of the HTML-element with id=``"train"``.
    ````  
