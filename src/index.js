@@ -1,7 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
-
-import {ControllerDataset} from './controller-dataset';
 import * as ui from './ui';
+import {ControllerDataset} from "./controller-dataset";
 import {Webcam} from './webcam';
 
 // The number of classes we want to predict. In this workshop, we will be
@@ -112,6 +111,32 @@ let isPredicting = false;
 let isTrained = false;
 
 async function predict() {
+    ui.isPredicting();
+    while (isPredicting) {
+        const predictedClass = tf.tidy(() => {
+            // Capture the frame from the webcam.
+            const img = webcam.capture();
+
+            // Make a prediction through mobilenet, getting the internal activation of
+            // the mobilenet model, i.e., "embeddings" of the input images.
+            const embeddings = truncatedMobileNet.predict(img);
+
+            // Make a prediction through our newly-trained model using the embeddings
+            // from mobilenet as input.
+            const predictions = model.predict(embeddings);
+
+            // Returns the index with the maximum probability. This number corresponds
+            // to the class the model thinks is the most probable given the input.
+            return predictions.as1D().argMax();
+        });
+
+        const classId = (await predictedClass.data())[0];
+        predictedClass.dispose();
+
+        ui.predictClass(classId);
+        await tf.nextFrame();
+    }
+    ui.donePredicting();
 }
 
 async function init() {
@@ -154,7 +179,13 @@ init().then(() => {
     });
 
     document.getElementById('play').addEventListener('click', () => {
-        ui.startBreakout();
+        if (isTrained === false) {
+            alert('You must train the model before you can start playing!');
+        } else {
+            ui.startBreakout();
+            isPredicting = true;
+            predict();
+        }
     });
 
 
