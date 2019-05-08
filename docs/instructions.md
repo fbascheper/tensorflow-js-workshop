@@ -64,10 +64,11 @@
    1.  ````npm add "@tensorflow/tfjs" --save-prod````
 
 2. Implement ``async function loadTruncatedMobileNet()``.
-   1. Import module ``@tensorflow/tfjs`` as ``tf`` in the file ``index.js``.
+   1. Import ``*`` from module ``@tensorflow/tfjs`` as ``tf`` in the file ``index.js``. 
    
-   2. Load a pre-trained [*MobileNet model*](https://github.com/tensorflow/tfjs-models/tree/master/mobilenet)
-      for TensorFlow.js. 
+   2. Now implement function ``loadTruncatedMobileNet()`` to load a pre-trained
+      [*MobileNet model*](https://github.com/tensorflow/tfjs-models/tree/master/mobilenet)
+      for TensorFlow.js.  
       ````
       const mobilenet = await tf.loadLayersModel(
           'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
@@ -76,6 +77,8 @@
       const layer = mobilenet.getLayer('conv_pw_13_relu');
       return tf.model({inputs: mobilenet.inputs, outputs: layer.output});
       ````
+      
+      This is the base model where we will apply Transfer learning. 
 
 3. Load and warm up the TensorFlow.js model before calling ``ui.init()``  in the ``async function init()``.
       ````
@@ -88,9 +91,9 @@
       ````
 
 4. Implement the ``capture()`` method in the file ``webcam.js``.
-   1. Import module ``@tensorflow/tfjs`` as ``tf``.
+   1. First we need to import ``*`` from module ``@tensorflow/tfjs`` as ``tf``.
    
-   2. Implement the ``capture()`` method using [browser.fromPixels()](https://js.tensorflow.org/api/latest/#browser.fromPixels)
+   2. Implement the ``capture()`` method 
    ````
         return tf.tidy(() => {
             // Reads the image as a Tensor from the webcam <video> element.
@@ -107,7 +110,14 @@
             // so we divide by 127 and subtract 1.
             return batchedImage.toFloat().div(tf.scalar(127)).sub(tf.scalar(1));
         });
-   ````  
+   ````
+   
+      Don't forget to implement the ``// TODO`` from the snippet above 
+      using [browser.fromPixels()](https://js.tensorflow.org/api/latest/#browser.fromPixels). 
+      Use this [hint](./hints.md#Implementing-the-WebCam-capture-method) if you need it. 
+      
+      Note: the ``fromPixels()`` method constructs Tensors from the input images 
+      captured by your WebCam.
 
 5. Implement ``async function handler(label)`` in the file ``ui.js``.
    ````  
@@ -122,8 +132,8 @@
        await tf.nextFrame();
    }
    document.body.removeAttribute('data-active');
-   ````  
-
+   ````
+   
 6. Implement ``ui.setSampleHandler()`` in the file ``index.js``.
    ````  
     tf.tidy(() => {
@@ -134,7 +144,15 @@
     });
    ````  
 
-   Use this [hint](./hints.md#Implementing-setSampleHandler) if you need it. 
+   Don't forget to implement both ``// TODO`` from the snippet above. 
+   You can use this [hint](./hints.md#Implementing-setSampleHandler) if you need it. 
+
+   In conjunction with the ``handler()`` function from the previous step, this
+   will ensure that a frame is read from the WebCam when a UI button is pressed
+   and associated with the class label given by the button. 
+   
+   Note: left, right are labels 0, 1 respectively. 
+   
 
 7. Reload the application, add samples from the web cam and verify that the number of samples increases as expected.
 

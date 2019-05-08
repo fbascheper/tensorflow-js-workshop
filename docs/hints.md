@@ -6,7 +6,17 @@ You can find the required element in ``index.html`` with element ``id="webcam"``
 
 ---
 
+#### Implementing the WebCam capture method
+Don't forget to pass the instace variable webcamElement of the ``WebCam`` class
+into the ``tf.fromPixels()`` method, like so:
+
+  ````
+  const webcamImage = tf.browser.fromPixels(this.webcamElement);
+  ````  
+
+---
+
 #### Implementing setSampleHandler
 * For ``const img`` you must call the ``capture()`` method in your instance of the ``WebCam`` class.
-* To draw the thumbnail you must call the ``drawThumb()`` method from ``ui`` with the image and label as parameters.
+* To draw the thumbnail you must call the ``drawThumb()`` method from ``ui`` and pass the image and label as parameters.
 
