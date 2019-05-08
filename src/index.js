@@ -1,7 +1,7 @@
 import * as ui from './ui';
 
 // The number of classes we want to predict.
-const NUM_CLASSES = undefined;
+const NUM_CLASSES = null;
 
 // A webcam class that generates Tensors from the images from the webcam.
 const webcam = undefined;
