@@ -112,7 +112,7 @@
         });
    ````
    
-      Don't forget to implement the ``// TODO`` from the snippet above 
+      Don't forget to implement the ``// TODO`` statement from the snippet above 
       using [browser.fromPixels()](https://js.tensorflow.org/api/latest/#browser.fromPixels). 
       Use this [hint](./hints.md#Implementing-the-WebCam-capture-method) if you need it. 
       
@@ -144,7 +144,7 @@
     });
    ````  
 
-   Don't forget to implement both ``// TODO`` from the snippet above. 
+   Don't forget to implement both ``// TODO`` statements from the snippet above. 
    You can use this [hint](./hints.md#Implementing-setSampleHandler) if you need it. 
 
    Note: in conjunction with the ``handler()`` function from the previous step, this
@@ -261,8 +261,12 @@
     });
    ````
    
-   This creates a new model from the mobile net, adds two extra layers
-   and implements the actual training from the images captured by your webcam.   
+   This creates a new model with the outputs of the MobileNet model as input shape,
+   and two layers:
+   1. A dense layer with a ReLU activation function
+   2. A dense layer with a Softmax activation function
+     
+   And it implements the actual training from the images captured by your webcam.   
 
 5. Add the ``train()`` method to the ``onclick()`` event of the HTML-element with id=``"train"``.
    ````  
@@ -318,6 +322,13 @@
     }
     ui.donePredicting();
    ````  
+
+   Don't forget to implement the ``// TODO`` statements from the snippet above. 
+   
+   This determines the eventual prediction and direction of the paddle by
+   * Making an initial prediction from the MobileNet model, fed with an image from the WebCam
+   * Feeding that prediction into newly created model, to create a new prediction
+   * Determining the index with the maximum probability 
 
 2. Add the ``predict()`` method to the ``onclick()`` event of the HTML-element with id=``"play"``.
    ````  
