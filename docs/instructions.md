@@ -2,6 +2,8 @@
 
 ### Assignment 1. Use the web cam to display a preview in the box under the ``PLAY`` button.
 1. Change the style of the ``<div>`` with id = ``controller`` to ``"display:none"``.
+   This will hide the controller at the bottom of the screen until the application 
+   has been setup correctly. 
 
 2. Implement the ``setup()`` function in the file ``webcam.js``.
       ````
@@ -30,6 +32,9 @@
           }
       });
       ````
+   Later on, this will be used to setup an HTML ``<video />`` element. Unfortunately there are some issues with this code on Safari 12, 
+   so we recommend using Chrome or FireFox on MacOS.
+      
  
 3. Setup the  web cam during initialization.
    1. Add import of ``Webcam`` to the file ``index.js``, e.g.
