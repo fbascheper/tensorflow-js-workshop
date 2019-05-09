@@ -1,7 +1,7 @@
 # Hints for the assignments.
 
 #### Definition of const webcam
-The constructor of the ``Webcam`` class requires an HTML ``<video />`` element. 
+The constructor of the ``Webcam`` class requires an HTML ``<video />`` element.
 You can find the required element in ``index.html`` with element ``id="webcam"``
 
 ---
@@ -10,7 +10,7 @@ You can find the required element in ``index.html`` with element ``id="webcam"``
 Don't forget to pass the instace variable webcamElement of the ``WebCam`` class
 into the ``tf.fromPixels()`` method, like so:
 
-  ````
+  ````javascript
   const webcamImage = tf.browser.fromPixels(this.webcamElement);
   ````  
 
@@ -24,4 +24,4 @@ into the ``tf.fromPixels()`` method, like so:
 
 #### Updating setSampleHandler
 The addSample() method needs two parameters, a ``Tensor`` and a ``label``.
-The Tensor is returned by the predict method, e.g. ``truncatedMobileNet.predict(img)`` 
+The Tensor is returned by the predict method, e.g. ``truncatedMobileNet.predict(img)``
