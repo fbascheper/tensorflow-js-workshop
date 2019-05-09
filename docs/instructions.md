@@ -2,12 +2,12 @@
 
 ### Assignment 1. Use the web cam to display a preview in the box under the ``PLAY`` button.
 1. Change the style of the ``<div>`` with id = ``controller`` to ``"display: none"``.
-   
-   This will hide the controller at the bottom of the screen until the application 
-   has been setup correctly. 
+
+   This will hide the controller at the bottom of the screen until the application
+   has been setup correctly.
 
 2. Implement the ``setup()`` function in the file ``webcam.js``.
-      ````
+      ````javascript
       return new Promise((resolve, reject) => {
           const navigatorAny = navigator;
           navigator.getUserMedia = navigator.getUserMedia ||
@@ -33,56 +33,56 @@
           }
       });
       ````
-   Later on, this will be used to setup an HTML ``<video />`` element. Unfortunately there are some issues with this code on Safari 12, 
+   Later on, this will be used to setup an HTML ``<video />`` element. Unfortunately there are some issues with this code on Safari 12,
    so we recommend using Chrome or FireFox on MacOS.
-      
- 
+
+
 3. Setup the  web cam during initialization.
    1. Add import of ``Webcam`` to the file ``index.js``, e.g.
-      ````
+      ````javascript
       import {Webcam} from './webcam';
       ````
-      
+
    2. Create a new instance of Webcam as the value of ``const webcam``.
-      
-      Use this [hint](./hints.md#Definition-of-const-webcam) if you need it. 
-   
+
+      Use this [hint](./hints.md#Definition-of-const-webcam) if you need it.
+
    3. Call ``await webcam.setup()`` in the ``async function init()``
       and make sure that the HTML-element with id ``no-webcam`` is displayed (``style = block``)
       when an exception occurs in its ``setup()`` method.
-      
+
       Note: You should use the ``try {} catch(e) {}`` construct to achieve this.  
 
-4. Call ``ui.init()`` at the end of the ``async function init()``. 
+4. Call ``ui.init()`` at the end of the ``async function init()``.
 
 5. Reload the application and verify that the web cam preview display renders as expected.
 
 ***
 
-### Assignment 2. Add samples from the web cam for training TensorFlow.js 
+### Assignment 2. Add samples from the web cam for training TensorFlow.js
 
 1. Use NPM to add the TensorFlow.js dependency.
    1.  ````npm add "@tensorflow/tfjs" --save-prod````
 
 2. Implement ``async function loadTruncatedMobileNet()``.
-   1. Import ``*`` from module ``@tensorflow/tfjs`` as ``tf`` in the file ``index.js``. 
-   
+   1. Import ``*`` from module ``@tensorflow/tfjs`` as ``tf`` in the file ``index.js``.
+
    2. Now implement function ``loadTruncatedMobileNet()`` to load a pre-trained
       [*MobileNet model*](https://github.com/tensorflow/tfjs-models/tree/master/mobilenet)
       for TensorFlow.js.  
-      ````
+      ````javascript
       const mobilenet = await tf.loadLayersModel(
           'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
-  
+
       // Return a model that outputs an internal activation.
       const layer = mobilenet.getLayer('conv_pw_13_relu');
       return tf.model({inputs: mobilenet.inputs, outputs: layer.output});
       ````
-      
-      This is the base model where we will apply Transfer learning. 
+
+      This is the base model where we will apply Transfer learning.
 
 3. Load and warm up the TensorFlow.js model before calling ``ui.init()``  in the ``async function init()``.
-      ````
+      ````javascript
           truncatedMobileNet = await loadTruncatedMobileNet();
 
           // Warm up the model. This uploads weights to the GPU and compiles the WebGL
@@ -93,9 +93,9 @@
 
 4. Implement the ``capture()`` method in the file ``webcam.js``.
    1. First we need to import ``*`` from module ``@tensorflow/tfjs`` as ``tf``.
-   
-   2. Implement the ``capture()`` method 
-   ````
+
+   2. Implement the ``capture()`` method
+   ````javascript
         return tf.tidy(() => {
             // Reads the image as a Tensor from the webcam <video> element.
             const webcamImage = undefined; // TODO: implement me (using tf.browser)!
@@ -112,16 +112,16 @@
             return batchedImage.toFloat().div(tf.scalar(127)).sub(tf.scalar(1));
         });
    ````
-   
-      Don't forget to implement the ``// TODO`` statement from the snippet above 
-      using [browser.fromPixels()](https://js.tensorflow.org/api/latest/#browser.fromPixels). 
-      Use this [hint](./hints.md#Implementing-the-WebCam-capture-method) if you need it. 
-      
-      Note: the ``fromPixels()`` method constructs Tensors from the input images 
+
+      Don't forget to implement the ``// TODO`` statement from the snippet above
+      using [browser.fromPixels()](https://js.tensorflow.org/api/latest/#browser.fromPixels).
+      Use this [hint](./hints.md#Implementing-the-WebCam-capture-method) if you need it.
+
+      Note: the ``fromPixels()`` method constructs Tensors from the input images
       captured by your WebCam.
 
 5. Implement ``async function handler(label)`` in the file ``ui.js``.
-   ````  
+   ````javascript
    const className = CONTROLS[label];
    const total = document.getElementById(className + '-total');
    mouseDown = true;
@@ -134,9 +134,9 @@
    }
    document.body.removeAttribute('data-active');
    ````
-   
+
 6. Implement the lambda passed to ``ui.setSampleHandler()`` in the file ``index.js``.
-   ````  
+   ````javascript
     tf.tidy(() => {
         const img = undefined; // TODO: implement me (using webcam.js)!
 
@@ -145,23 +145,23 @@
     });
    ````  
 
-   Don't forget to implement both ``// TODO`` statements from the snippet above. 
-   You can use this [hint](./hints.md#Implementing-setSampleHandler) if you need it. 
+   Don't forget to implement both ``// TODO`` statements from the snippet above.
+   You can use this [hint](./hints.md#Implementing-setSampleHandler) if you need it.
 
    Note: in conjunction with the ``handler()`` function from the previous step, this
    will ensure that a frame is read from the WebCam when a UI button is pressed
-   and associated with the class label given by the button. 
-   Left, right are labels 0, 1 respectively. 
-   
+   and associated with the class label given by the button.
+   Left, right are labels 0, 1 respectively.
+
 
 7. Reload the application, add samples from the web cam and verify that the number of samples increases as expected.
 
 ***
-   
+
 ### Assignment 3. Training the TensorFlow.js model using web cam images
 
 1. Implement ``addSample()``  in the file ``controller-dataset.js``.
-   ````  
+   ````javascript
    // One-hot encode the label.
    const y = tf.tidy(
        () => tf.oneHot(tf.tensor1d([label]).toInt(), this.numClasses));
@@ -187,18 +187,18 @@
    ````  
 
 2. Create a new instance of ControllerDataset as the value of ``const controllerDataset``
-   in the file ``index.js``. 
+   in the file ``index.js``.
 
 3. Update the lambda passed to ``ui.setSampleHandler()`` in the file ``index.js``.
-   
-   Before the preview thumbnail is drawn, the ``addSample()`` method of the ``controllerDataset`` 
-   should be called to add captured images from the WebCam to the controller dataset, 
+
+   Before the preview thumbnail is drawn, the ``addSample()`` method of the ``controllerDataset``
+   should be called to add captured images from the WebCam to the controller dataset,
    using the prediction ``truncatedMobileNet.predict(image)``.
-   
-   You can use this [hint](./hints.md#Updating-setSampleHandler) if you need it. 
-   
+
+   You can use this [hint](./hints.md#Updating-setSampleHandler) if you need it.
+
 4. Implement ``async function train()``  in the file ``index.js``.
-   ````  
+   ````javascript
     if (controllerDataset.xs == null) {
         throw new Error('Add some samples before training!');
     }
@@ -261,17 +261,17 @@
         }
     });
    ````
-   
+
    This creates a new model with the outputs of the MobileNet model as input shape,
    and two layers:
    1. A dense layer with a ReLU activation function
    2. A dense layer with a Softmax activation function
-     
+
    And it does the actual training using the images captured by your WebCam,
    which have been stored in the ``controllerDataset``.   
 
 5. Add the ``train()`` method to the ``onclick()`` event of the HTML-element with id=``"train"``.
-   ````  
+   ````javascript
    if (controllerDataset.xs == null) {
        alert('Please add some samples before training!');
    } else {
@@ -285,10 +285,10 @@
    ````  
 
 6. Reload the application.
-   1. Press the ``TRAIN MODEL`` button without loading any samples. 
+   1. Press the ``TRAIN MODEL`` button without loading any samples.
       Ensure that the alert dialog is displayed as expected.
-   
-   2. Now add samples and press the ``TRAIN MODEL`` button again. 
+
+   2. Now add samples and press the ``TRAIN MODEL`` button again.
       TensorFlow.js should now be using your samples for training.     
 
 ***
@@ -296,7 +296,7 @@
 ### Assignment 4. Implement the predict method to implement the paddle movement.
 
 1. Implement ``async function predict()``  in the file ``index.js``.
-   ````  
+   ````javascript
     ui.isPredicting();
     while (isPredicting) {
         const predictedClass = tf.tidy(() => {
@@ -325,15 +325,15 @@
     ui.donePredicting();
    ````  
 
-   Don't forget to implement the ``// TODO`` statements from the snippet above. 
-   
+   Don't forget to implement the ``// TODO`` statements from the snippet above.
+
    This determines the eventual prediction and direction of the paddle by
    * Making an initial prediction from the MobileNet model, fed with an image from the WebCam
    * Feeding that prediction into newly created model, to create a new prediction
-   * Determining the index with the maximum probability 
+   * Determining the index with the maximum probability
 
 2. Add the ``predict()`` method to the ``onclick()`` event of the HTML-element with id=``"play"``.
-   ````  
+   ````javascript
    if (isTrained === false) {
        alert('You must train the model before you can start playing!');
    } else {
@@ -347,10 +347,10 @@
    1. Press the ``PLAY`` button and verify that the model must be trained before you can start playing.
 
    2. Add some samples from the web cam for left and right movement and press the ``TRAIN MODEL`` button.
-   
-   3. Now press the ``PLAY`` button again. The game should start and you should be able to use TensorFlow.js 
+
+   3. Now press the ``PLAY`` button again. The game should start and you should be able to use TensorFlow.js
       to move the paddle with live images captured from your web cam.
-      
+
    4. Try to win the game !      
 
 ***
@@ -359,8 +359,7 @@
 
 1. Implement the code for the ``clear`` buttons.
 
-2. Add an extra sample container to train the model when your head is in a neutral position. 
-   In the neutral position, the paddle should stop moving and stay at the same position. 
+2. Add an extra sample container to train the model when your head is in a neutral position.
+   In the neutral position, the paddle should stop moving and stay at the same position.
 
 3. Play the game again! Now it should be much easier to win the game.
-  

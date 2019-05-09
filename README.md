@@ -6,16 +6,16 @@
 
 ### Getting started
 
-Before you can begin with the workshop, you must first install all dependencies. 
-Afterwards you can start the initial version of the BreakOut game, without any TensorFlow.js dependencies. 
-You can do this by executing the following commands in your terminal: 
+Before you can begin with the workshop, you must first install all dependencies.
+Afterwards you can start the initial version of the BreakOut game, without any TensorFlow.js dependencies.
+You can do this by executing the following commands in your terminal:
 
-````
+````bash
 npm install
 npm start
 ````
 
-This command should open the application using your default browser. 
+This command should open the application using your default browser.
 Otherwise, just open ``http://localhost:4200``.
 
 
@@ -34,10 +34,8 @@ All instructions for the workshop can be found in the [docs](docs/instructions.m
 ***
 
 ### Credits
-> For this workshop we have used the TensorFlow.js examples and Mozilla game development tutorials as a starting point. 
-> Feel free to check them out using the links below. 
- 
+> For this workshop we have used the TensorFlow.js examples and Mozilla game development tutorials as a starting point.
+> Feel free to check them out using the links below.
+
 * [Mozilla Tutorials - build a BreakOut game using JavaScript](https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript)
 * [TensorFlow.js example - PacMan](https://github.com/tensorflow/tfjs-examples/tree/master/webcam-transfer-learning)
-
-
