@@ -17,13 +17,13 @@
         "start": "cross-env NODE_ENV=development parcel src/index.html --port 4200 --no-hmr --open"
     },
     "devDependencies": {
-        "@babel/core": "^7.4.4",
-        "@babel/plugin-transform-runtime": "^7.4.4",
+        "@babel/core": "^7.5.5",
+        "@babel/plugin-transform-runtime": "^7.5.5",
         "babel-preset-env": "~1.6.1",
         "clang-format": "~1.2.2",
-        "cross-env": "^5.1.6",
+        "cross-env": "^5.2.1",
         "parcel-bundler": "^1.12.3",
-        "yalc": "~1.0.0-pre.22"
+        "yalc": "^1.0.0-pre.34"
     },
     "browserslist": [
         "> 1%",
