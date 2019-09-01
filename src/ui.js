@@ -1,3 +1,5 @@
+import * as tf from '@tensorflow/tfjs';
+
 const CONTROLS = ['left', 'right'];
 const CONTROL_CODES = [37, 39];
 
@@ -61,7 +63,17 @@ const clearRightButton = document.getElementById('clear-right');
 const thumbDisplayed = {};
 
 async function handler(label) {
-    alert('TODO - implement!!');
+    const className = CONTROLS[label];
+    const total = document.getElementById(className + '-total');
+    mouseDown = true;
+
+    while (mouseDown) {
+        addSampleHandler(label);
+        document.body.setAttribute('data-active', CONTROLS[label]);
+        total.innerText = totals[label]++;
+        await tf.nextFrame();
+    }
+    document.body.removeAttribute('data-active');
 }
 
 async function clear(label) {
