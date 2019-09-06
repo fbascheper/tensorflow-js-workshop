@@ -121,6 +121,8 @@
       captured by your WebCam.
 
 5. Implement ``async function handler(label)`` in the file ``ui.js``.
+   1. First we need to import ``*`` from module ``@tensorflow/tfjs`` as ``tf``.
+   2. Now implement the ``async function handler(label)``
    ````javascript
    const className = CONTROLS[label];
    const total = document.getElementById(className + '-total');
@@ -185,11 +187,12 @@
        y.dispose();
    }
    ````  
+2. First we need to import ``*`` from module ``@tensorflow/tfjs`` as ``tf``.
 
-2. Create a new instance of ControllerDataset as the value of ``const controllerDataset``
+3. Create a new instance of ControllerDataset as the value of ``const controllerDataset``
    in the file ``index.js``.
 
-3. Update the lambda passed to ``ui.setSampleHandler()`` in the file ``index.js``.
+4. Update the lambda passed to ``ui.setSampleHandler()`` in the file ``index.js``.
 
    Before the preview thumbnail is drawn, the ``addSample()`` method of the ``controllerDataset``
    should be called to add captured images from the WebCam to the controller dataset,
@@ -197,7 +200,7 @@
 
    You can use this [hint](./hints.md#Updating-setSampleHandler) if you need it.
 
-4. Implement ``async function train()``  in the file ``index.js``.
+5. Implement ``async function train()``  in the file ``index.js``.
    ````javascript
     if (controllerDataset.xs == null) {
         throw new Error('Add some samples before training!');
@@ -270,7 +273,7 @@
    And it does the actual training using the images captured by your WebCam,
    which have been stored in the ``controllerDataset``.   
 
-5. Add the ``train()`` method to the ``onclick()`` event of the HTML-element with id=``"train"``.
+6. Add the ``train()`` method to the ``onclick()`` event of the HTML-element with id=``"train"``.
    ````javascript
    if (controllerDataset.xs == null) {
        alert('Please add some samples before training!');
@@ -284,7 +287,7 @@
    }
    ````  
 
-6. Reload the application.
+7. Reload the application.
    1. Press the ``TRAIN MODEL`` button without loading any samples.
       Ensure that the alert dialog is displayed as expected.
 
