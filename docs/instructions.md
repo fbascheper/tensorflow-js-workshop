@@ -62,7 +62,7 @@
 ### Assignment 2. Add samples from the web cam for training TensorFlow.js
 
 1. Use NPM to add the TensorFlow.js dependency.
-   1.  ````npm add "@tensorflow/tfjs" --save-prod````
+   1.  ````npm add "@tensorflow/tfjs@1.2.8" --save-prod --save-exact````
 
 2. Implement ``async function loadTruncatedMobileNet()``.
    1. Import ``*`` from module ``@tensorflow/tfjs`` as ``tf`` in the file ``index.js``.
