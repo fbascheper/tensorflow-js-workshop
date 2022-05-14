@@ -9,7 +9,7 @@
         "node": ">=8.9.0"
     },
     "dependencies": {
-        "vega-embed": "^3.30.0"
+        "vega-embed": "^4.0.0"
     },
     "scripts": {
         "build-prod": "cross-env NODE_ENV=production parcel build src/index.html --no-minify --public-url ./",
